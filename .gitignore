@@ -1,0 +1,19 @@
+# build directories.
+build/
+build-win32/
+
+# Binary.
+Ricin
+
+# AStyle orig files.
+*.orig
+
+# gdb logs.
+.gdb_history
+
+# this is a vala project.
+*.c
+
+# Glade stupid temp files.
+*.ui~
+*.ui#
