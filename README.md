@@ -5,12 +5,6 @@
     </td>
     <td>
       <img src="https://img.shields.io/badge/version-0.0.1-brightgreen.svg?style=flat">
-      <a href="https://travis-ci.org/RicinApp/Ricin">
-        <img src="https://api.travis-ci.org/RicinApp/Ricin.svg" alt="Travis-CI">
-      </a>
-      <a href="https://www.bountysource.com/teams/RicinApp">
-        <img src="https://img.shields.io/bountysource/team/RicinApp/activity.svg?style=flat" alt="Support development">
-      </a>
     </td>
   </tr>
   <tr>
@@ -35,7 +29,7 @@ _Screenshot might be outdated but it should give you a general idea of what is R
 # Dependencies
 | Package name        | Version   |
 |---------------------|-----------|
-| [meson] \(building) |           |
+| [meson] \(building) | >=0.28.0  |
 | [ninja] \(building) | >=1.5.1   |
 | valac               | >=0.28.1  |
 | gtk+3               | >=3.16    |
@@ -59,12 +53,6 @@ make debug
 You can contribute to improving Ricin by [proposing Pull-requests](https://github.com/RicinApp/Ricin/pulls), reporting bugs or suggestions using the GitHub [issues tracker](https://github.com/RicinApp/Ricin/issues), [submiting a Bounty](https://www.bountysource.com/teams/RicinApp).
 
 > _Section to complete..._
-
-# Support Ricin developement
-You can support the Ricin client developement by
-- [Paying us a Bounty](https://www.bountysource.com/teams/RicinApp)
-- Submiting donations via Bitcoin: [12VAyWXpe8uDKCPb25nhdhBHyiEf1pioBc](bitcoin:12VAyWXpe8uDKCPb25nhdhBHyiEf1pioBc)
-- Backing an issue via Bountsource to make people able to work on it full-time! :)
 
 # Vala resources to get started
 Before clicking on any link beside, you must know what is Vala and why it is so powerful and easy to use: [What is Vala?](https://wiki.gnome.org/Projects/Vala/About)
