@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td align="center" width="100%" colspan="2">
-      <big><b>Wants to be involved? Their is several way to help us! ^-^</b></big><br>
+      <big><b>Want to be involved? There are several ways you can help us! ^-^</b></big><br>
       <a href="#dependencies">Dependencies</a> -
       <a href="#compiling">Compiling</a> -
       <a href="#contribute">Contribute</a> -
@@ -20,9 +20,9 @@
 </table>
 
 # Introduction
-**Ricin** aims to be a _secure_, _lightweight_, _hackable_ and _fully-customizable_ chat client using the awesome and open-source **ToxCore** library. We know that there are several Tox clients but this project was initially made because the other clients are still missing many features that users have been waiting for over many months. Ricin is a simple but powerful cross-platform client written in Vala and using Gtk+ 3.0.
+**Ricin** aims to be a _secure_, _lightweight_, _hackable_ and _fully-customizable_ chat client using **ToxCore** library. Ricin is a simple but powerful cross-platform client written in Vala and using Gtk+ 3.0.
 
-_Screenshot might be outdated but it should give you a general idea of what is Ricin_
+_Screenshot might be outdated but it should give you a general idea of what Ricin is_
 [Early version](https://camo.githubusercontent.com/0451a9e2ebf7994dc1d2f851b70728c14049bd16/68747470733a2f2f70726f78792e696e7374616e742d6861636b2e636f6d2f3f696d673d6148523063446f764c326b756157316e64584975593239744c7a464e656c427852566f756347356e)
 
 
@@ -37,7 +37,7 @@ _Screenshot might be outdated but it should give you a general idea of what is R
 | glib2               | >=2.38    |
 | json-glib           | >=1.0     |
 | libsoup             | >=2.4     |
-| libnotify           | >=0.0.0   |
+| libnotify           | >=0.7.6   |
 
 # Compiling
 
@@ -50,9 +50,11 @@ make debug
 ```
 
 # Contribute
-You can contribute to improving Ricin by [proposing Pull-requests](https://github.com/RicinApp/Ricin/pulls), reporting bugs or suggestions using the GitHub [issues tracker](https://github.com/RicinApp/Ricin/issues), [submiting a Bounty](https://www.bountysource.com/teams/RicinApp).
+You can help improving Ricin by:
 
-> _Section to complete..._
+- [Proposing Pull-requests](https://github.com/RicinApp/Ricin/pulls)
+- Reporting bugs
+- Creating suggestions using the GitHub [issues tracker](https://github.com/RicinApp/Ricin/issues)
 
 # Vala resources to get started
 Before clicking on any link beside, you must know what is Vala and why it is so powerful and easy to use: [What is Vala?](https://wiki.gnome.org/Projects/Vala/About)
