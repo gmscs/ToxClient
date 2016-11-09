@@ -43,8 +43,8 @@ _Screenshot might be outdated but it should give you a general idea of what Rici
 # Compiling
 
 ```bash
-git clone --recursive https://github.com/RicinApp/Ricin.git
-cd Ricin
+git clone --recursive https://github.com/gmscs/ToxClient.git
+cd ToxClient
 mkdir build
 meson . build
 make debug
