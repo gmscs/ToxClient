@@ -17,7 +17,6 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
   private uint64 file_size;
   private uint position;
 
-  // Managing the download
   private bool downloaded = false;
   private bool paused = false;
 
@@ -25,11 +24,11 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
 
   public signal void accept_file (bool response, uint32 file_id);
 
-  public InlineFileMessageListRow (Tox.Friend sender, uint32 file_id, string username, string file_path, uint64 file_size, string timestamp) {
+  public InlineFileMessageListRow (Tox.Friend sender, uint32 file_id, string username, string file_path, uint64 file_size, string file_name, string timestamp) {
     this.sender = sender;
     this.file = File.new_for_path (file_path);
     this.file_id = file_id;
-    this.file_name = this.file.get_basename ();
+    this.file_name = file_name;
     this.file_size = file_size;
 
     this.label_name.set_markup (@"<b>$username</b>");
@@ -38,35 +37,21 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
     this.label_file_size.set_text (@"($(this.file_size) kB)");
 
     this.sender.file_done.connect ((name, bytes, id) => {
-      if (id != this.file_id) {
-        return;
-      }
+        if (id != this.file_id) {
+            return;
+        }
 
-      debug (@"File $(this.file_id) done!");
+        string downloads = Environment.get_user_special_dir (UserDirectory.DOWNLOAD) + "/";
+        File file_destination = File.new_for_path (downloads + this.file_name);
 
-      string downloads = Environment.get_user_special_dir (UserDirectory.DOWNLOAD) + "/";
-      File file_destination = File.new_for_path (downloads + this.file_name);
+        file_destination = File.new_for_path (downloads + this.file_name);
+        FileUtils.set_data (file_destination.get_path (), bytes.get_data ());
 
-      int i = 0;
-      string filename = this.file_name;
-      while (FileUtils.test (file_destination.get_path (), FileTest.EXISTS)) {
-        filename = @"$(++i)-$(this.file_name)";
-      }
-
-      file_destination = File.new_for_path (downloads + filename);
-      FileUtils.set_data (file_destination.get_path (), bytes.get_data ());
-      //this.file.copy (file_destination, FileCopyFlags.NONE);
-
-      /*if (FileUtils.test (file_destination.get_path (), FileTest.EXISTS)) {
-        this.file.delete ();
-      }*/
-
-      this.downloaded = true;
-      this.box_widget.get_style_context().add_class ("saved-file");
-      this.button_save.set_size_request (65, 20);
-      this.button_reject.visible = false;
-      this.image_save_inline.icon_name = "folder-open-symbolic";
-      //this.button_save.sensitive = false;
+        this.downloaded = true;
+        this.box_widget.get_style_context().add_class ("saved-file");
+        this.button_save.set_size_request (65, 20);
+        this.button_reject.visible = false;
+        this.image_save_inline.icon_name = "folder-open-symbolic";
     });
 
     this.sender.file_received.connect (id => {
@@ -83,7 +68,7 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
       this.image_save_inline.icon_name = "object-select-symbolic";
     });
 
-    this.sender.file_paused.connect (id => {
+    this.sender.file_paused.connect (id => { //TODO: WHAT
       if (id != this.file_id) {
         return;
       }
@@ -104,7 +89,7 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
         return;
       }
 
-      this.file_id = -1; // File doesn't exists now, avoid issues.
+      this.file_id = -1; // File doesn't exist now, avoid issues.
       this.box_widget.get_style_context().add_class ("canceled-file");
       this.button_reject.set_size_request (65, 20);
       this.button_reject.sensitive = false;
@@ -114,10 +99,6 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
 
   [GtkCallback]
   private void save_file () {
-    /**
-    * TODO: Handle multiple state of the button using a less hacky way.
-    **/
-
     if (this.downloaded == false) {
       debug ("Requested to save file");
       this.accept_file (true, this.file_id);
@@ -137,23 +118,6 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
       this.image_save_inline.icon_name = "media-playback-start-symbolic";
     }
 
-
-    /*
-    string downloads = Environment.get_user_special_dir (UserDirectory.DOWNLOAD) + "/";
-    File file_destination = File.new_for_path (downloads + this.file_name);
-
-    int i = 0;
-    string filename = this.file_name;
-    while (FileUtils.test (file_destination.get_path (), FileTest.EXISTS)) {
-      filename = @"$(++i)-$(this.file_name)";
-    }
-
-    file_destination = File.new_for_path (downloads + this.file_name);
-    this.file.copy (file_destination, FileCopyFlags.NONE);
-
-    if (FileUtils.test (file_destination.get_path (), FileTest.EXISTS)) {
-      this.file.delete ();*/
-
     /**
     * TODO: Change box_widget background to progress.
     * NOTE: Use a Gtk.Overlay and change it's background color + update width
@@ -168,7 +132,7 @@ class Ricin.InlineFileMessageListRow : Gtk.ListBoxRow {
   [GtkCallback]
   private void reject_file () {
     this.accept_file (false, this.file_id);
-    this.file_id = -1; // File doesn't exists now, avoid issues.
+    this.file_id = -1; // File doesn't exist now, avoid issues.
 
     /**
     * TODO: Change box_widget background to red.

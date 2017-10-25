@@ -17,8 +17,9 @@ GtkLabel.info-message {
 }
 
 .image-desc {
-  background-color: #21252B;
-  padding: 5px 5px 5px 5px;
+    background-color: #21252B;
+    padding: 5px 5px 5px 5px;
+    color: white;
 }
 
 .btn-save-image {
@@ -26,7 +27,6 @@ GtkLabel.info-message {
   background-color: #21252B;
   border: none;
   border-radius: 0;
-  color: white;
 }
 
 .btn-save-image:hover, .btn-save-image:insensitive {

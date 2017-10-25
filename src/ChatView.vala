@@ -18,7 +18,6 @@ class Ricin.ChatView : Gtk.Box {
     Normal,
     Action,
     System,
-    InlineImage,
     InlineFile,
     GtkListBoxRow
   }
@@ -36,12 +35,10 @@ class Ricin.ChatView : Gtk.Box {
 
     handlers += fr.friend_info.connect ((message) => {
       messages_list.add (new SystemMessageListRow (message));
-      //this.add_row (MessageRowType.System, new SystemMessageListRow (message));
     });
 
     handlers += handle.global_info.connect ((message) => {
       messages_list.add (new SystemMessageListRow (message));
-      //this.add_row (MessageRowType.System, new SystemMessageListRow (message));
     });
 
     handlers += fr.message.connect (message => {
@@ -58,7 +55,6 @@ class Ricin.ChatView : Gtk.Box {
       }
 
       messages_list.add (new MessageListRow (fr.name, Util.add_markup (message), time ()));
-      //this.add_row (MessageRowType.Normal, new MessageListRow (fr.name, Util.add_markup (message), time ()));
     });
 
     handlers += fr.action.connect (message => {
@@ -76,31 +72,23 @@ class Ricin.ChatView : Gtk.Box {
 
       string message_escaped = @"$(fr.name) $message";
       messages_list.add (new SystemMessageListRow (message_escaped));
-      //this.add_row (MessageRowType.Action, new SystemMessageListRow (message_escaped));
     });
 
     handlers += fr.file_transfer.connect ((name, size, id) => {
-      string downloads = Environment.get_user_special_dir (UserDirectory.DOWNLOAD) + "/";
-      string filename = name;
-      int i = 0;
 
-      while (FileUtils.test (downloads + filename, FileTest.EXISTS)) {
-        filename = @"$(++i)-$name";
-      }
+        string filename = name;
+        int i = 0;
 
-      //FileUtils.set_data (path, bytes.get_data ());
-      var path = @"/tmp/$name";
-      var file_content_type = ContentType.guess (path, null, null);
+        while (FileUtils.test (filename, FileTest.EXISTS)) { //TODO: This is gonna break when I fix file choose location
+            filename = @"($(++i))$name";
+        }
+        var path = @"/tmp/$name";
 
-      if (file_content_type.has_prefix ("image/")) {
-        return;
-      } else {
-        var file_row = new InlineFileMessageListRow (fr, id, fr.name, path, size, time ());
+        var file_row = new InlineFileMessageListRow (fr, id, fr.name, path, size, filename, time ());
         file_row.accept_file.connect ((response, file_id) => {
           fr.reply_file_transfer (response, file_id);
         });
         messages_list.add (file_row);
-      }
     });
     
     this.fr.notify["status"].connect ((obj, prop) => {
@@ -110,23 +98,6 @@ class Ricin.ChatView : Gtk.Box {
         this.last_status = this.fr.status;
       }
     });
-
-    /*handlers += fr.file_done.connect ((name, bytes) => {
-      string downloads = Environment.get_user_special_dir (UserDirectory.DOWNLOAD) + "/";
-      string filename = name;
-      int i = 0;
-      while (FileUtils.test (downloads + filename, FileTest.EXISTS)) {
-        filename = @"$(++i)-$name";
-      }
-
-      var path = @"/tmp/$filename";
-      FileUtils.set_data (path, bytes.get_data ());
-      var file_content_type = ContentType.guess (path, null, null);
-      if (file_content_type.has_prefix ("image/")) {
-        var pixbuf = new Gdk.Pixbuf.from_file_at_scale (path, 400, 250, true);
-        messages_list.add (new InlineImageMessageListRow (fr.name, path, pixbuf, time ()));
-      }
-    });*/
 
     fr.bind_property ("connected", entry, "sensitive", BindingFlags.DEFAULT);
     fr.bind_property ("connected", send_file, "sensitive", BindingFlags.DEFAULT);
@@ -182,7 +153,7 @@ class Ricin.ChatView : Gtk.Box {
 
   [GtkCallback]
   private void choose_file_to_send () {
-    var chooser = new Gtk.FileChooserDialog ("Choose a File",
+    var chooser = new Gtk.FileChooserDialog ("Choose a File", //NOTE 
         get_toplevel () as Gtk.Window,
         Gtk.FileChooserAction.OPEN,
         "_Cancel", Gtk.ResponseType.CANCEL,
@@ -195,16 +166,8 @@ class Ricin.ChatView : Gtk.Box {
       var file_content_type = ContentType.guess (filename, null, null);
       var size = info.get_size ();
 
-      if (file_content_type.has_prefix ("image/")) {
-        var pixbuf = new Gdk.Pixbuf.from_file_at_scale (filename, 400, 250, true);
-        var image_widget = new InlineImageMessageListRow (this.handle.username, filename, pixbuf, time ());
-        image_widget.button_save_inline.visible = false;
-        messages_list.add (image_widget);
-      } else {
-        //fr.friend_info (@"Sending file $filename");
-        var file_row = new InlineFileMessageListRow (fr, file_id, this.handle.username, filename, size, time ());
+        var file_row = new InlineFileMessageListRow (fr, file_id, this.handle.username, filename, size, filename, time ());
         messages_list.add (file_row);
-      }
     }
     chooser.close ();
   }
@@ -214,39 +177,4 @@ class Ricin.ChatView : Gtk.Box {
     var adjustment = this.scroll_messages.get_vadjustment ();
     adjustment.set_value (adjustment.get_upper () - adjustment.get_page_size ());
   }
-
-  /*private void add_row (MessageRowType type, IMessageListRow row) {
-    switch (type) {
-      case MessageRowType.Normal:
-        debug ("Appending a Normal MessageRow");
-        this.messages_list.add (row);
-        row.position = this.messages_list.get_n_items ();
-        break;
-      case MessageRowType.Action:
-        debug ("Appending an Action MessageRow");
-        this.messages_list.add (row);
-        row.position = this.messages_list.get_n_items ();
-        break;
-      case MessageRowType.System:
-        debug ("Appending a System MessageRow");
-        this.messages_list.add (row);
-        row.position = this.messages_list.get_n_items ();
-        break;
-      case MessageRowType.InlineImage:
-        debug ("Appending an InlineImage MessageRow");
-        this.messages_list.add (row);
-        row.position = this.messages_list.get_n_items ();
-        break;
-      case MessageRowType.InlineFile:
-        debug ("Appending an InlineFile MessageRow");
-        this.messages_list.add (row);
-        row.position = this.messages_list.get_n_items ();
-        break;
-      case MessageRowType.GtkListBoxRow:
-        debug ("Appending a Gtk.ListBoxRow");
-        this.messages_list.add (row);
-        //row.position = this.messages_list.get_n_items ();
-        break;
-    }
-  }*/
 }
