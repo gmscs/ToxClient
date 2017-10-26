@@ -251,9 +251,8 @@ public class Ricin.MainWindow : Gtk.ApplicationWindow {
         friends.append (friend);
         var view_name = "chat-%s".printf (friend.pubkey);
         chat_stack.add_named (new ChatView (this.tox, friend, this.chat_stack, view_name), view_name);
-
-        // Send our avatar.
-        friend.send_avatar ();
+       
+        friend.send_avatar();
       }
     });
 
@@ -338,8 +337,10 @@ public class Ricin.MainWindow : Gtk.ApplicationWindow {
     var chat_view = this.chat_stack.get_child_by_name (view_name);
     
     var item = (row as FriendListRow);
-    item.unreadCount = 0;
-    item.update_icon ();
+    if(item.unreadCount > 0) {
+        item.unreadCount = 0;
+        item.update_icon ();
+    }
     
     debug ("ChatView name: %s", view_name);
 

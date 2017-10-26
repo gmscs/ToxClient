@@ -32,7 +32,7 @@
   }
 
   
-  public static string render_litemd (string text) {
+  public static string render_litemd (string text) { //TODO: Christ what is this
     var md = text;
 
     var emojis = md.replace (":+1:", "👍")
