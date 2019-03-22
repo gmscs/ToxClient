@@ -1,30 +1,13 @@
-<table align="center" width="100%">
-  <tr>
-    <td>
-      <strong><a href="#">Ricin</a></strong>: A Lightweight and Fully-Hackable Tox client powered by Vala & Gtk3!
-    </td>
-    <td>
-      <img src="https://img.shields.io/badge/version-0.0.1-brightgreen.svg?style=flat">
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="100%" colspan="2">
-      <big><b>Want to be involved? There are several ways you can help us! ^-^</b></big><br>
-      <a href="#dependencies">Dependencies</a> -
-      <a href="#compiling">Compiling</a> -
-      <a href="#contribute">Contribute</a> -
-      <a href="#support-ricin-developement">Support us</a> -
-      <a href="#vala-resources-to-get-started">Get started with Vala</a>
-    </td>
-  </tr>
-</table>
+**Project is officially discontinued**
+
+I will not be working on this client anymore due to the way things have been going with Toxcore for a while now.
+
 
 # Introduction
-**Ricin** aims to be a _secure_, _lightweight_, _hackable_ and _fully-customizable_ chat client using **ToxCore** library. Ricin is a simple but powerful cross-platform client written in Vala and using Gtk+ 3.0.
+**ToxClient** aims to be a _secure_, _lightweight_, _hackable_ and _fully-customizable_ chat client using **ToxCore** library. ToxClient is a simple but powerful cross-platform client written in Vala and using Gtk+ 3.0.
 
 This project is a fork of Ricin mainly for personal use, testing and for fun. Any and all bug fixes or changes that happen on this repo **will** be applied to the main Ricin repo if it is in need of the fix/feature too!
 
-_Screenshot might be outdated but it should give you a general idea of what Ricin is_
 ![alt tag](https://raw.githubusercontent.com/gmscs/ToxClient/master/toxclient.png)
 
 # Dependencies
@@ -51,11 +34,11 @@ make debug
 ```
 
 # Contribute
-You can help improving Ricin by:
+You can help improving ToxClient by:
 
-- [Proposing Pull-requests](https://github.com/RicinApp/Ricin/pulls)
+- [Proposing Pull-requests](https://github.com/gmscs/ToxClient/pulls)
 - Reporting bugs
-- Creating suggestions using the GitHub [issues tracker](https://github.com/RicinApp/Ricin/issues)
+- Creating suggestions using the GitHub [issues tracker](https://github.com/gmscs/ToxClient/issues)
 
 # Vala resources to get started
 Before clicking on any link beside, you must know what is Vala and why it is so powerful and easy to use: [What is Vala?](https://wiki.gnome.org/Projects/Vala/About)
